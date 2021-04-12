@@ -1,0 +1,50 @@
+const express = require('express');
+const { Item } = require('../models/item');
+const router = express.Router();
+
+// create an item
+router.post('/create', async (req, res) => {
+  const itemData = req.body;
+
+  let item = new Item(itemData);
+  item = await item.save();
+
+  res.send(item);
+});
+
+// get all items
+
+router.get('/', async (req, res) => {
+  const items = await Item.find();
+  res.send(items);
+});
+
+// get a certain item
+router.get('/:itemId', async (req, res) => {
+  const itemId = req.params.itemId;
+
+  const item = await Item.findById(itemId);
+
+  res.send(item);
+});
+
+// update an item
+router.patch('/update/:itemId', async (res, req) => {
+  const itemId = req.params.itemId;
+  const newItemFields = req.body;
+
+  const updatedItem = await Item.findByIdAndUpdate(itemId, { $set: newItemFields }, { new: true });
+
+  res.send(updatedItem);
+});
+
+// detele an item
+router.delete('/delete/:itemId', async (req, res) => {
+  const itemId = req.params.itemId;
+
+  const removedItem = await Item.findByIdAndRemove(itemId);
+
+  res.send(removedItem);
+});
+
+module.exports = router;
