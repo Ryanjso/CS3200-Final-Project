@@ -12,7 +12,9 @@ app.listen(port, () => console.log('Server started at port : ' + port));
 
 // import controllers
 const userController = require('./controllers/userController');
+const orderController = require('./controllers/orderController');
 
 app.use('/user', userController);
+app.use('/order', orderController);
 
 module.exports = app;
