@@ -7,10 +7,17 @@ import { UsersComponent } from "./users/users.component";
 import { OrdersComponent } from "./orders/orders.component";
 import { ItemsComponent } from "./items/items.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [AppComponent, UsersComponent, OrdersComponent, ItemsComponent],
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
