@@ -6,11 +6,7 @@ const { User } = require('../models/user');
 router.post('/create', async (req, res) => {
   const userData = req.body;
 
-  console.log(userData);
-
   let user = new User(userData);
-
-  console.log(user);
 
   user = await user.save();
 
@@ -35,8 +31,6 @@ router.get('/:userId', async (req, res) => {
 router.patch('/update/:userId', async (req, res) => {
   const userId = req.params.userId;
   const newUserFields = req.body;
-
-  console.log(newUserFields);
 
   const updateUser = await User.findByIdAndUpdate(userId, { $set: newUserFields }, { new: true });
 
