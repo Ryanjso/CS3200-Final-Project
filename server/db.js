@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 mongoose
   .connect(
-    'mongodb+srv://willandryan:HIAA2OyNXmZ0VXVL@cluster0.egbpk.mongodb.net/test?retryWrites=true&w=majority',
+    `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.egbpk.mongodb.net/test?retryWrites=true&w=majority`,
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,
-      // useFindAndModify: false,
-      // useCreateIndex: true,
     }
   )
   .then(() => console.log('DB Connected!'))
@@ -16,6 +16,3 @@ mongoose
   });
 
 module.exports = mongoose;
-
-// willandryan
-// HIAA2OyNXmZ0VXVL
