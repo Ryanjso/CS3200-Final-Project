@@ -5,52 +5,52 @@ import { Router } from "@angular/router";
 @Injectable({
   providedIn: "root",
 })
-export class UsersService {
+export class OrdersService {
   serverUrl = "http://localhost:3750/";
   constructor(private http: HttpClient, private router: Router) {}
-  getAllUsers() {
+  getAllOrders() {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
-    return this.http.get<any>(this.serverUrl + "user", options);
+    return this.http.get<any>(this.serverUrl + "order", options);
   }
 
-  createUser(user) {
+  createOrder(order) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
-    return this.http.post<any>(this.serverUrl + "user/create", user, options);
+    return this.http.post<any>(this.serverUrl + "order/create", order, options);
   }
 
-  getUserInfo(userId) {
+  getOrderInfo(orderId) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
-    return this.http.get<any>(this.serverUrl + "user/" + userId, options);
+    return this.http.get<any>(this.serverUrl + "order/" + orderId, options);
   }
 
-  updateUser(userId, userInfo) {
+  updateOrder(orderId, orderInfo) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
     return this.http.patch<any>(
-      this.serverUrl + "user/update/" + userId,
-      userInfo,
+      this.serverUrl + "order/update/" + orderId,
+      orderInfo,
       options
     );
   }
 
-  deleteUser(userId) {
+  deleteOrder(orderId) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
     return this.http.delete<any>(
-      this.serverUrl + "user/delete/" + userId,
+      this.serverUrl + "order/delete/" + orderId,
       options
     );
   }

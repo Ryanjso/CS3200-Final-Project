@@ -20,32 +20,97 @@
   <h2 *ngIf="addingItem">Create New Item</h2>
   <h2 *ngIf="editingItem">Edit Existing Item</h2>
 
-  <form [formGroup]="itemForm" (submit)="submitItemForm()">
-    <label for="user" class="standardLabel">User</label>
-    <input
-      type="select"
-      name=""
-      placeholder="Appleseed"
-      formControlName="user"
-    />
-    <label for="order" class="standardLabel">Order</label>
-    <input
-      type="select"
-      name=""
-      placeholder="e.g. John's Favorite Pizza"
-      formControlName="order"
-    />
-
-    <label class="standardLabel" *ngIf="this.orderBeingEditing.items.length > 0"
-      >Item Type</label
-    >
-    <input type="radio" name="" placeholder="e.g. John's Favorite Pizza" />
-
-    <button *ngIf="addingUser" type="submit">
-      Create Item and Add to Order
-    </button>
-    <button *ngIf="editingUser" type="submit">Update Item</button>
-    <button *ngIf="editingUser" (click)="deleteUser()">Delete Item</button>
-    <button (click)="resetOrderFormVals()">Cancel</button>
+  <form [formGroup]="itemForm">
+    <label for="user" class="standardLabel">Select User</label>
+    <select formControlName="user" (change)="updateOrders($event.target)">
+      <optgroup label="Select a User">
+        <option value="{{ u._id }}" *ngFor="let u of users">
+          {{ u.firstName }} {{ u.lastName }}
+        </option>
+      </optgroup>
+    </select>
+    <div *ngIf="this.userOrders.length > 0" class="order">
+      <label for="order" class="standardLabel">Select Order</label>
+      <select formControlName="order" (change)="this.itemType = 'pizza'">
+        <optgroup label="Select an Order">
+          <option value="{{ o._id }}" *ngFor="let o of userOrders">
+            {{ o.name }}
+          </option>
+        </optgroup>
+      </select>
+    </div>
   </form>
+
+  <form
+    *ngIf="this.itemType && this.addingItem"
+    (change)="changeItem($event.target)"
+  >
+    <label for="order" class="standardLabel">Item Type</label>
+    <select>
+      <option value="pizza">Pizza</option>
+      <option value="drink">Drink</option>
+    </select>
+  </form>
+
+  <form [formGroup]="pizzaForm" *ngIf="this.itemType === 'pizza'">
+    <label for="pizzaSize" class="standardLabel">Pizza Size</label>
+    <select formControlName="pizzaSize">
+      <option selected value="small">Small</option>
+      <option selected value="medium">Medium</option>
+      <option selected value="large">Large</option>
+    </select>
+    <label for="protein" class="standardLabel">Protein</label>
+    <select formControlName="protein">
+      <option selected value="none">None</option>
+      <option selected value="pepperoni">Pepperoni</option>
+      <option selected value="sausage">Sausage</option>
+      <option selected value="chicken">Chicken</option>
+      <option selected value="bacon">Bacon</option>
+      <option selected value="veganChorizo">Vegan Chorizo</option>
+    </select>
+    <label for="veggie" class="standardLabel">Veggie</label>
+    <select formControlName="veggie">
+      <option selected value="none">None</option>
+      <option selected value="peppers">Peppers</option>
+      <option selected value="onions">Onions</option>
+      <option selected value="mushrooms">Mushrooms</option>
+      <option selected value="spinach">Spinach</option>
+      <option selected value="olives">Olives</option>
+    </select>
+    <label for="cheese" class="standardLabel">Cheese</label>
+    <input type="checkbox" formControlName="cheese" />
+    <label for="sauce" class="standardLabel">Sauce</label>
+    <input type="checkbox" formControlName="sauce" />
+  </form>
+
+  <form [formGroup]="drinkForm" *ngIf="this.itemType === 'drink'">
+    <label for="drinkSize" class="standardLabel">Drink Size</label>
+    <select formControlName="drinkSize">
+      <option selected value="small">Small</option>
+      <option selected value="medium">Medium</option>
+      <option selected value="large">Large</option>
+    </select>
+    <label for="type" class="standardLabel">Drink Type</label>
+    <select formControlName="type">
+      <option selected value="coke">Coke</option>
+      <option selected value="diet coke">Diet Coke</option>
+      <option selected value="sprite">Sprite</option>
+      <option selected value="ginger ale">Ginger Ale</option>
+      <option selected value="lemonade">Lemonade</option>
+      <option selected value="orange fanta">Orange Fanta</option>
+    </select>
+    <label for="ice" class="standardLabel">Ice</label>
+    <input type="checkbox" formControlName="ice" />
+  </form>
+
+  <button *ngIf="addingItem && itemType" (click)="submitItemForm()">
+    Create Item and Add to Order
+  </button>
+  <button *ngIf="editingItem && itemType" (click)="submitItemForm()">
+    Update Item
+  </button>
+  <button *ngIf="editingItem && itemType" (click)="deleteItem()">
+    Delete Item
+  </button>
+  <button (click)="resetFormValues()">Cancel</button>
 </div>

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
+  name: { type: String },
   userId: { type: mongoose.Types.ObjectId, ref: 'User' },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },

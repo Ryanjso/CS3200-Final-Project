@@ -23,63 +23,7 @@ export class UsersComponent implements OnInit {
     orders: [],
   };
 
-  users: any = [
-    {
-      _id: "1ihu3jk1u4yo2u3jkl123",
-      firstName: "Will",
-      lastName: "Kofski",
-      email: "will.kofski@gmail.com",
-      username: "kofski05",
-      password: "kofski99",
-      orders: [
-        {
-          _id: "21389y4uihjkl24h44121",
-          items: [
-            {
-              protein: "pepperoni",
-              veggie: "spinach",
-              sauce: true,
-              cheese: true,
-              size: "large",
-            },
-            {
-              size: "large",
-              type: "coke",
-              ice: true,
-            },
-          ],
-        },
-      ],
-      dateOfBirth: new Date("4/27/1999"),
-    },
-    {
-      _id: "189218o4ujk1l2n4j142424214214",
-      firstName: "Ryan",
-      lastName: "Soderberg",
-      email: "ryanjsoderberg@gmail.com",
-      username: "rjsodey",
-      password: "soderberg4ever",
-      orders: [
-        {
-          _id: "hyt874h3iu4b2j4l3jn142",
-          items: [
-            {
-              veggie: "peppers",
-              sauce: true,
-              cheese: true,
-              size: "medium",
-            },
-            {
-              size: "small",
-              type: "orange fanta",
-              ice: true,
-            },
-          ],
-        },
-      ],
-      dateOfBirth: new Date("4/23/1999"),
-    },
-  ];
+  users: any = [];
 
   constructor(private fb: FormBuilder, public usersService: UsersService) {}
 
@@ -92,8 +36,10 @@ export class UsersComponent implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       dateOfBirth: ["", [Validators.required]],
     });
+
     this.usersService.getAllUsers().subscribe((res) => {
-      console.log("res!: ", res);
+      console.log("res: !, ", res);
+      this.users = res;
     });
   }
 
@@ -123,14 +69,17 @@ export class UsersComponent implements OnInit {
 
   editUser(userObj) {
     this.editingUser = true;
-    this.userBeingEdited = userObj;
-    this.userForm.setValue({
-      firstName: userObj.firstName,
-      lastName: userObj.lastName,
-      email: userObj.email,
-      username: userObj.username,
-      password: userObj.password,
-      dateOfBirth: userObj.dateOfBirth,
+    this.usersService.getUserInfo(userObj._id).subscribe((res) => {
+      this.userBeingEdited = res;
+      this.userBeingEdited.orders = res.orders || [];
+      this.userForm.setValue({
+        firstName: res.firstName,
+        lastName: res.lastName,
+        email: res.email,
+        username: res.username,
+        password: res.password,
+        dateOfBirth: new Date(res.dateOfBirth).toISOString().substring(0, 10),
+      });
     });
   }
 
@@ -149,25 +98,25 @@ export class UsersComponent implements OnInit {
       username: this.userForm.controls["username"].value,
       password: this.userForm.controls["password"].value,
       dateOfBirth: this.userForm.controls["dateOfBirth"].value,
-      orders: this.userBeingEdited.orders,
     };
-
-    console.log("new: ", this.addingUser);
 
     try {
       // here is where we send new user info to backend and save to array
       if (this.addingUser) {
         newUser.orders = [];
-        this.users.push(newUser);
-        this.addingUser = false;
-        this.resetUserFormVals();
+        this.usersService.createUser(newUser).subscribe((res) => {
+          console.log("res: ", res);
+          this.users.push(res);
+          this.addingUser = false;
+          this.resetUserFormVals();
+        });
       } else {
         let newArr = [];
         for (let u of this.users) {
           if (u._id === this.userBeingEdited._id) {
-            newUser.orders = u.orders;
-            newUser._id = u._id;
-            newArr.push(newUser);
+            this.usersService.updateUser(u._id, newUser).subscribe((res) => {
+              newArr.push(res);
+            });
           } else {
             newArr.push(u);
           }
@@ -176,7 +125,6 @@ export class UsersComponent implements OnInit {
         this.userBeingEdited = { orders: [] };
         this.resetUserFormVals();
       }
-      console.log(this.users);
     } catch (e) {
       console.log(e.error.response);
     }
@@ -192,8 +140,9 @@ export class UsersComponent implements OnInit {
       }
     }
     this.users = newUserArr;
-    // send this.userBeingEdited _id to backend to be deleted and then reset
-    this.userBeingEdited = { orders: [] };
+    this.usersService.deleteUser(this.userBeingEdited._id).subscribe((res) => {
+      this.userBeingEdited = { orders: [] };
+    });
   }
 
   resetUserFormVals() {

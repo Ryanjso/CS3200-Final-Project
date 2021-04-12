@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
 
+var cors = require('cors');
+
+app.use(cors());
+
 // initialize DB
 const { mongoose } = require('./db');
 

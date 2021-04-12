@@ -37,7 +37,11 @@ router.patch('/update/:userId', async (req, res) => {
   const userId = req.params.userId;
   const newUserFields = req.body;
 
-  const updatedUser = await User.findByIdAndUpdate(userId, { $set: newUserFields }, { new: true });
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $set: newUserFields },
+    { new: true }
+  );
 
   res.send(updatedUser);
 });

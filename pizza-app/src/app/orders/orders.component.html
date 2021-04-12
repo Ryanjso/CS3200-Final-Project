@@ -8,6 +8,7 @@
 
     <button (click)="editOrder(order)">Edit Order</button>
   </div>
+  <div *ngIf="orders.length === 0">No Orders Created Yet</div>
 </div>
 
 <div *ngIf="addingOrder || editingOrder">
@@ -16,12 +17,13 @@
     <h2 *ngIf="editingOrder">Edit Existing Order</h2>
 
     <label for="user" class="standardLabel">User</label>
-    <input
-      type="select"
-      name=""
-      placeholder="Appleseed"
-      formControlName="user"
-    />
+    <select formControlName="user">
+      <optgroup label="Select a User">
+        <option value="{{ u._id }}" *ngFor="let u of users">
+          {{ u.firstName }} {{ u.lastName }}
+        </option>
+      </optgroup>
+    </select>
     <label for="order" class="standardLabel">Order Name</label>
     <input
       type="text"
@@ -30,18 +32,26 @@
       formControlName="name"
     />
 
-    <label class="standardLabel" *ngIf="this.orderBeingEditing.items.length > 0"
-      >Items</label
+    <label for="items" class="standardLabel" *ngIf="this.editingOrder"
+      >Order Items</label
     >
-    <div *ngFor="let order of this.userBeingEdited.orders" class="order">
-      <p>Item Id: {{ order._id }}</p>
-      <p>{{ order.items.length }} Items</p>
-      <button>View Order</button>
+    <div *ngIf="this.editingOrder && orderBeingEdited.items.length > 0">
+      <div *ngFor="let item of orderBeingEdited.items">
+        <p *ngIf="item.cheese || item.cheese === false">
+          - {{ item.size }} Pizza with
+          {{ item.protein || item.veggie || "No Topping" }}
+        </p>
+        <p *ngIf="!item.cheese && item.cheese !== false">
+          - {{ item.size }} {{ item.type }} Drink
+        </p>
+      </div>
     </div>
 
-    <button *ngIf="addingUser" type="submit">Create Order and Add Items</button>
-    <button *ngIf="editingUser" type="submit">Update Order</button>
-    <button *ngIf="editingUser" (click)="deleteUser()">Delete Order</button>
+    <button *ngIf="addingOrder" type="submit">
+      Create Order and Start Adding Items
+    </button>
+    <button *ngIf="editingOrder" type="submit">Update Order</button>
+    <button *ngIf="editingOrder" (click)="deleteOrder()">Delete Order</button>
     <button (click)="resetOrderFormVals()">Cancel</button>
   </form>
 </div>

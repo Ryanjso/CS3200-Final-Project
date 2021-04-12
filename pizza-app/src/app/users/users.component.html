@@ -9,6 +9,7 @@
     <p>{{ user.username }}</p>
     <button (click)="editUser(user)">Edit User</button>
   </div>
+  <div *ngIf="this.users.length === 0">No users created yet</div>
 </div>
 
 <div *ngIf="addingUser || editingUser">
@@ -63,8 +64,7 @@
       >Orders</label
     >
     <div *ngFor="let order of this.userBeingEdited.orders" class="order">
-      <p>Order Id: {{ order._id }}</p>
-      <p>{{ order.items.length }} Items</p>
+      <p>{{ order.name }}</p>
       <button>View Order</button>
     </div>
 

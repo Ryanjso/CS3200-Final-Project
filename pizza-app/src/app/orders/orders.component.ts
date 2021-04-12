@@ -6,6 +6,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { OrdersService } from "./orders.service";
+import { UsersService } from "../users/users.service";
 
 @Component({
   selector: "app-orders",
@@ -21,23 +23,27 @@ export class OrdersComponent implements OnInit {
   orderBeingEdited: any = {
     items: [],
   };
-  orders: any = [
-    {
-      _id: "21389y4uihjkl24h44121",
-      name: "Will's first order",
-    },
-    {
-      _id: "hyt874h3iu4b2j4l3jn142",
-      name: "Ryans's first order",
-    },
-  ];
+  orders: any = [];
 
-  constructor(private fb: FormBuilder) {}
+  users: any = [];
+
+  constructor(
+    private fb: FormBuilder,
+    public ordersService: OrdersService,
+    public usersService: UsersService
+  ) {}
 
   ngOnInit() {
     this.orderForm = this.fb.group({
       name: ["", [Validators.required]],
       user: ["", [Validators.required]],
+    });
+    this.ordersService.getAllOrders().subscribe((res) => {
+      this.orders = res;
+    });
+    this.usersService.getAllUsers().subscribe((res) => {
+      console.log(res);
+      this.users = res;
     });
   }
 
@@ -51,9 +57,72 @@ export class OrdersComponent implements OnInit {
 
   editOrder(orderObj) {
     this.editingOrder = true;
-    //   this.orderService.editOrder(orderObj._id).subscribe((res) => {
-    //       this.orderBeingEdited = res;
-    //   })
+    this.ordersService.getOrderInfo(orderObj._id).subscribe((res) => {
+      this.orderBeingEdited = res;
+      this.orderBeingEdited.items = res.items || [];
+      this.orderForm.setValue({
+        name: res.name,
+        user: res.userId._id,
+      });
+    });
+  }
+
+  async submitOrderForm() {
+    this.orderSubmitAttempted = true;
+    if (!this.orderForm.valid) {
+      return;
+    }
+
+    this.orderSubmitAttempted = false;
+
+    let newOrder: any = {
+      name: this.orderForm.controls["name"].value,
+      userId: this.orderForm.controls["user"].value,
+    };
+
+    try {
+      // here is where we send new user info to backend and save to array
+      if (this.addingOrder) {
+        this.ordersService.createOrder(newOrder).subscribe((res) => {
+          console.log("res: ", res);
+          this.orders.push(res);
+          this.addingOrder = false;
+        });
+      } else {
+        let newArr = [];
+        for (let o of this.orders) {
+          if (o._id === this.orderBeingEdited._id) {
+            this.ordersService.updateOrder(o._id, newOrder).subscribe((res) => {
+              newArr.push(res);
+            });
+          } else {
+            newArr.push(o);
+          }
+        }
+        this.orders = newArr;
+        this.orderBeingEdited = { orders: [] };
+        this.resetOrderFormVals();
+      }
+    } catch (e) {
+      console.log(e.error.response);
+    }
+  }
+
+  deleteOrder() {
+    this.resetOrderFormVals();
+    this.editingOrder = false;
+    let newOrderArr = [];
+    for (const o of this.orders) {
+      if (o._id !== this.orderBeingEdited._id) {
+        newOrderArr.push(o);
+      }
+    }
+    this.orders = newOrderArr;
+    this.ordersService
+      .deleteOrder(this.orderBeingEdited._id)
+      .subscribe((res) => {
+        this.orderBeingEdited = { orders: [] };
+      });
   }
 
   resetOrderFormVals() {

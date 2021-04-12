@@ -5,52 +5,53 @@ import { Router } from "@angular/router";
 @Injectable({
   providedIn: "root",
 })
-export class UsersService {
+export class ItemsService {
   serverUrl = "http://localhost:3750/";
   constructor(private http: HttpClient, private router: Router) {}
-  getAllUsers() {
+  getAllItems() {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
-    return this.http.get<any>(this.serverUrl + "user", options);
+    return this.http.get<any>(this.serverUrl + "item", options);
   }
 
-  createUser(user) {
+  createItem(item) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
-    return this.http.post<any>(this.serverUrl + "user/create", user, options);
+    return this.http.post<any>(this.serverUrl + "item/create", item, options);
   }
 
-  getUserInfo(userId) {
+  getItemInfo(itemId) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
-    return this.http.get<any>(this.serverUrl + "user/" + userId, options);
+    return this.http.get<any>(this.serverUrl + "item/" + itemId, options);
   }
 
-  updateUser(userId, userInfo) {
+  updateItem(itemId, itemInfo) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
+    console.log("tes: ", this.serverUrl + "item/update/" + itemId);
     return this.http.patch<any>(
-      this.serverUrl + "user/update/" + userId,
-      userInfo,
+      this.serverUrl + "item/update/" + itemId,
+      itemInfo,
       options
     );
   }
 
-  deleteUser(userId) {
+  deleteItem(itemId) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const options = { headers };
     return this.http.delete<any>(
-      this.serverUrl + "user/delete/" + userId,
+      this.serverUrl + "item/delete/" + itemId,
       options
     );
   }

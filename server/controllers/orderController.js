@@ -1,6 +1,7 @@
 const express = require('express');
 const { Item } = require('../models/item');
 const { Order } = require('../models/order');
+const { User } = require('../models/user');
 const router = express.Router();
 
 // create an order
@@ -24,7 +25,7 @@ router.get('/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
 
   // find the order
-  const order = (await Order.findById(orderId)).toObject();
+  const order = (await Order.findById(orderId).populate('userId')).toObject();
 
   // find the items in the order
   const items = await Item.find({ orderId });

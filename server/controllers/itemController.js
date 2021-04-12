@@ -23,19 +23,26 @@ router.get('/', async (req, res) => {
 router.get('/:itemId', async (req, res) => {
   const itemId = req.params.itemId;
 
-  const item = await Item.findById(itemId);
+  const item = await Item.findById(itemId).populate({
+    path: 'orderId',
+    populate: { path: 'userId' },
+  });
 
   res.send(item);
 });
 
 // update an item
 router.patch('/update/:itemId', async (res, req) => {
-  const itemId = req.params.itemId;
-  const newItemFields = req.body;
+  const itemId = req.req.params.itemId;
+  const newItemFields = req.req.body;
 
-  const updatedItem = await Item.findByIdAndUpdate(itemId, { $set: newItemFields }, { new: true });
+  const updatedItem = await Item.findByIdAndUpdate(
+    itemId,
+    { $set: newItemFields },
+    { new: true }
+  );
 
-  res.send(updatedItem);
+  req.req.res.send(updatedItem);
 });
 
 // detele an item

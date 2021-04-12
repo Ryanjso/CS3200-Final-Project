@@ -21,3 +21,8 @@ form {
 * {
   margin: 5px;
 }
+
+.order {
+  display: flex;
+  flex-direction: column;
+}
