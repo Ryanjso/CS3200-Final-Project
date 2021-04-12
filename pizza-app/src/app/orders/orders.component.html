@@ -1,0 +1,47 @@
+<div *ngIf="!addingOrder && !editingOrder">
+  <div class="title">
+    <h1>List of Dominos Orders</h1>
+    <button (click)="addingOrder = true">+ Create New Order</button>
+  </div>
+  <div *ngFor="let order of orders" class="order">
+    <p>{{ order.name }}</p>
+
+    <button (click)="editOrder(order)">Edit Order</button>
+  </div>
+</div>
+
+<div *ngIf="addingOrder || editingOrder">
+  <form [formGroup]="orderForm" (submit)="submitOrderForm()">
+    <h2 *ngIf="addingOrder">Create New Order</h2>
+    <h2 *ngIf="editingOrder">Edit Existing Order</h2>
+
+    <label for="user" class="standardLabel">User</label>
+    <input
+      type="select"
+      name=""
+      placeholder="Appleseed"
+      formControlName="user"
+    />
+    <label for="order" class="standardLabel">Order Name</label>
+    <input
+      type="text"
+      name=""
+      placeholder="e.g. John's Favorite Pizza"
+      formControlName="name"
+    />
+
+    <label class="standardLabel" *ngIf="this.orderBeingEditing.items.length > 0"
+      >Items</label
+    >
+    <div *ngFor="let order of this.userBeingEdited.orders" class="order">
+      <p>Item Id: {{ order._id }}</p>
+      <p>{{ order.items.length }} Items</p>
+      <button>View Order</button>
+    </div>
+
+    <button *ngIf="addingUser" type="submit">Create Order and Add Items</button>
+    <button *ngIf="editingUser" type="submit">Update Order</button>
+    <button *ngIf="editingUser" (click)="deleteUser()">Delete Order</button>
+    <button (click)="resetOrderFormVals()">Cancel</button>
+  </form>
+</div>
