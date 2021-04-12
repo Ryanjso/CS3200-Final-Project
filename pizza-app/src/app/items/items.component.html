@@ -1,0 +1,51 @@
+<div *ngIf="!addingItem && !editingItem">
+  <div class="title">
+    <h1>List of Items Ordered from Dominos</h1>
+    <button (click)="addingItem = true">+ Create Item for Order</button>
+  </div>
+  <div *ngFor="let item of items" class="item">
+    <p *ngIf="item.cheese || item.cheese === false">
+      {{ item.size }} Pizza with
+      {{ item.protein || item.veggie || "No Topping" }}
+    </p>
+    <p *ngIf="!item.cheese && item.cheese !== false">
+      {{ item.size }} {{ item.type }} Drink
+    </p>
+
+    <button (click)="editItem(item)">Edit Item</button>
+  </div>
+</div>
+
+<div *ngIf="addingItem || editingItem">
+  <h2 *ngIf="addingItem">Create New Item</h2>
+  <h2 *ngIf="editingItem">Edit Existing Item</h2>
+
+  <form [formGroup]="itemForm" (submit)="submitItemForm()">
+    <label for="user" class="standardLabel">User</label>
+    <input
+      type="select"
+      name=""
+      placeholder="Appleseed"
+      formControlName="user"
+    />
+    <label for="order" class="standardLabel">Order</label>
+    <input
+      type="select"
+      name=""
+      placeholder="e.g. John's Favorite Pizza"
+      formControlName="order"
+    />
+
+    <label class="standardLabel" *ngIf="this.orderBeingEditing.items.length > 0"
+      >Item Type</label
+    >
+    <input type="radio" name="" placeholder="e.g. John's Favorite Pizza" />
+
+    <button *ngIf="addingUser" type="submit">
+      Create Item and Add to Order
+    </button>
+    <button *ngIf="editingUser" type="submit">Update Item</button>
+    <button *ngIf="editingUser" (click)="deleteUser()">Delete Item</button>
+    <button (click)="resetOrderFormVals()">Cancel</button>
+  </form>
+</div>

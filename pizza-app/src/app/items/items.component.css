@@ -1,0 +1,23 @@
+button {
+  height: fit-content;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.title,
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.item > p {
+  text-transform: capitalize;
+}
+
+* {
+  margin: 5px;
+}

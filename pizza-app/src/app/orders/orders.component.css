@@ -1,0 +1,19 @@
+button {
+  height: fit-content;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.title,
+.order {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+* {
+  margin: 5px;
+}
