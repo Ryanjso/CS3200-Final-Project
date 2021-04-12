@@ -6,6 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { UsersService } from "./users.service";
 
 @Component({
   selector: "app-users",
@@ -80,7 +81,7 @@ export class UsersComponent implements OnInit {
     },
   ];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, public usersService: UsersService) {}
 
   ngOnInit() {
     this.userForm = this.fb.group({
@@ -90,6 +91,9 @@ export class UsersComponent implements OnInit {
       password: ["", [Validators.required]],
       email: ["", [Validators.required, Validators.email]],
       dateOfBirth: ["", [Validators.required]],
+    });
+    this.usersService.getAllUsers().subscribe((res) => {
+      console.log("res!: ", res);
     });
   }
 
