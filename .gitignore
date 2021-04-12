@@ -1,1 +1,6 @@
 .DS_Store
+.env
+
+server/Archive.zip
+server/angular
+server/angular.zip

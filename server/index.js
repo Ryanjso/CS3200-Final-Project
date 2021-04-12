@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
@@ -18,5 +19,11 @@ const itemController = require('./controllers/itemController');
 app.use('/user', userController);
 app.use('/order', orderController);
 app.use('/item', itemController);
+
+app.use('/', express.static(path.join(__dirname, 'angular')));
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, 'angular', 'index.html'));
+});
 
 module.exports = app;
