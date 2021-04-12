@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
   res.send(users);
 });
 
+// get a certain user and all orders of a certain user
 router.get('/:userId', async (req, res) => {
   const userId = req.params.userId;
 

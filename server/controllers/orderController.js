@@ -19,8 +19,8 @@ router.get('/', async (req, res) => {
   res.send(orders);
 });
 
-// get all items of a certain order
-router.get('/orderId', async (req, res) => {
+// get a certain order and all items of a certain order
+router.get('/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
 
   // find the order
