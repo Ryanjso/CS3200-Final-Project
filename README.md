@@ -8,15 +8,15 @@ Section 03 SP21
 
 ### Summary
 
-Pizza Shop is a web app where users can sign up, and order a pizza. Our app relies on 3 main collections of data, `Users`, `Orders`, and `Items`. Using our app, users can create new accounts, start orders with a name, and add items such as a `Pizza` or `Drink` to the order. 
+Pizza Shop is a web app where users can sign up, and order a pizza. Our app relies on 3 main collections of data, `Users`, `Orders`, and `Items`. Using our app, users can create new accounts, start orders with a name, and add items such as a `Pizza` or `Drink` to the order.
 
 ### Data Model
 
-A UML diagram for our data model can be found at db_design_final_project_UML.pdf
+A UML diagram for our data model can be found at [db_design_final_project_UML.pdf](https://github.com/Ryanjso/CS3200-Final-Project/blob/main/db_design_final_project_UML.pdf)
 
 **User Data Model**
 
-The user data model represents a user on our Pizza Shop web-app. A user is required so we can see who an order belongs to. 
+The user data model represents a user on our Pizza Shop web-app. A user is required so we can see who an order belongs to.
 
 **Order Data Model**
 
@@ -24,7 +24,7 @@ The order data model represents an order on our Pizza Shop web-app. An order rep
 
 **Item Data Model**
 
-The item data model represents an item, such as a Pizza or a Drink on our Pizza Shop web-app. The item data model lets us create unlimited items to allow for infinite customizations. Pizza and Drink share some fields, like `size` and `created`, however many of their fields are different. 
+The item data model represents an item, such as a Pizza or a Drink on our Pizza Shop web-app. The item data model lets us create unlimited items to allow for infinite customizations. Pizza and Drink share some fields, like `size` and `created`, however many of their fields are different.
 
 The Item Data Model has many enumerations in it. Some examples are as follows:
 
