@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UsersService } from "./users.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-users",
@@ -25,7 +26,11 @@ export class UsersComponent implements OnInit {
 
   users: any = [];
 
-  constructor(private fb: FormBuilder, public usersService: UsersService) {}
+  constructor(
+    private fb: FormBuilder,
+    public usersService: UsersService,
+    public router: Router
+  ) {}
 
   ngOnInit() {
     this.userForm = this.fb.group({

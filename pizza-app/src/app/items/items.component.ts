@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ItemsService } from "./items.service";
 import { UsersService } from "../users/users.service";
 import { OrdersService } from "../orders/orders.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-items",
@@ -34,7 +36,9 @@ export class ItemsComponent implements OnInit {
     private fb: FormBuilder,
     public itemsService: ItemsService,
     public usersService: UsersService,
-    public ordersService: OrdersService
+    public ordersService: OrdersService,
+    public router: Router,
+    public location: Location
   ) {}
 
   ngOnInit() {
@@ -64,6 +68,10 @@ export class ItemsComponent implements OnInit {
     this.ordersService.getAllOrders().subscribe((res) => {
       this.orders = res;
     });
+    if (this.router.url.split("/").length > 2) {
+      this.editItem({ _id: this.router.url.split("/")[2] });
+      this.location.go("/items");
+    }
   }
 
   updateOrders(eventTarget) {

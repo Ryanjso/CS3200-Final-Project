@@ -13,9 +13,16 @@ const routes: Routes = [
     path: "orders",
     component: OrdersComponent,
   },
-
+  {
+    path: "orders/:orderId",
+    component: OrdersComponent,
+  },
   {
     path: "items",
+    component: ItemsComponent,
+  },
+  {
+    path: "items/:itemId",
     component: ItemsComponent,
   },
   { path: "**", redirectTo: "/users" },

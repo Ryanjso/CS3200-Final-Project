@@ -65,7 +65,9 @@
     >
     <div *ngFor="let order of this.userBeingEdited.orders" class="order">
       <p>{{ order.name }}</p>
-      <button>View Order</button>
+      <button (click)="this.router.navigate(['/orders/' + order._id])">
+        View Order
+      </button>
     </div>
 
     <button *ngIf="addingUser" type="submit">Create User</button>

@@ -8,6 +8,8 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OrdersService } from "./orders.service";
 import { UsersService } from "../users/users.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-orders",
@@ -30,7 +32,9 @@ export class OrdersComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public ordersService: OrdersService,
-    public usersService: UsersService
+    public usersService: UsersService,
+    public router: Router,
+    public location: Location
   ) {}
 
   ngOnInit() {
@@ -45,6 +49,10 @@ export class OrdersComponent implements OnInit {
       console.log(res);
       this.users = res;
     });
+    if (this.router.url.split("/").length > 2) {
+      this.editOrder({ _id: this.router.url.split("/")[2] });
+      this.location.go("/orders");
+    }
   }
 
   get name(): FormControl {

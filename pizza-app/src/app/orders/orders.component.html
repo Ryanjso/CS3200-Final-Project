@@ -44,6 +44,9 @@
         <p *ngIf="!item.cheese && item.cheese !== false">
           - {{ item.size }} {{ item.type }} Drink
         </p>
+        <button (click)="this.router.navigate(['/items/' + item._id])">
+          View Item
+        </button>
       </div>
     </div>
 
