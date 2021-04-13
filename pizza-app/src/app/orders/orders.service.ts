@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class OrdersService {
-  serverUrl = "http://localhost:3750/";
+  serverUrl = environment.apiUrl + "/";
   constructor(private http: HttpClient, private router: Router) {}
   getAllOrders() {
     const headers = new HttpHeaders({

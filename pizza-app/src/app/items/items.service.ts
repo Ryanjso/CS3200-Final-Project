@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ItemsService {
-  serverUrl = "http://localhost:3750/";
+  serverUrl = environment.apiUrl + "/";
   constructor(private http: HttpClient, private router: Router) {}
   getAllItems() {
     const headers = new HttpHeaders({
