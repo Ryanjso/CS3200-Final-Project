@@ -43,10 +43,10 @@ export class OrdersComponent implements OnInit {
       user: ["", [Validators.required]],
     });
     this.ordersService.getAllOrders().subscribe((res) => {
+      console.log(res);
       this.orders = res;
     });
     this.usersService.getAllUsers().subscribe((res) => {
-      console.log(res);
       this.users = res;
     });
     if (this.router.url.split("/").length > 2) {
@@ -78,6 +78,9 @@ export class OrdersComponent implements OnInit {
   async submitOrderForm() {
     this.orderSubmitAttempted = true;
     if (!this.orderForm.valid) {
+      alert(
+        "Oops! Looks like you entered in some info incorrectly. Please try again :)"
+      );
       return;
     }
 
@@ -109,7 +112,7 @@ export class OrdersComponent implements OnInit {
           }
         }
         this.orders = newArr;
-        this.orderBeingEdited = { orders: [] };
+        this.orderBeingEdited = { items: [] };
         this.resetOrderFormVals();
       }
     } catch (e) {
@@ -130,7 +133,7 @@ export class OrdersComponent implements OnInit {
     this.ordersService
       .deleteOrder(this.orderBeingEdited._id)
       .subscribe((res) => {
-        this.orderBeingEdited = { orders: [] };
+        this.orderBeingEdited = { items: [] };
       });
   }
 

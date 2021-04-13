@@ -26,7 +26,7 @@ export class ItemsComponent implements OnInit {
   editingItem = false;
   itemType = null;
 
-  itemBeingEdited: any;
+  itemBeingEdited: any = { cheese: true };
   items: any = [];
   users: any = [];
   orders: any = [];
@@ -69,12 +69,12 @@ export class ItemsComponent implements OnInit {
       this.orders = res;
       if (this.router.url.split("/").length > 2) {
         if (this.router.url.split("/").includes("newOrder")) {
-          console.log("ugh");
+          console.log(this.router.url.split("/")[3]);
           // grab new order id from url and load create Item modal with user and order populated
           for (const orderObj of this.orders) {
             if (orderObj._id === this.router.url.split("/")[3]) {
               for (const userObj of this.users) {
-                if (userObj._id === orderObj.userId) {
+                if (userObj._id === orderObj.userId._id) {
                   this.updateOrders(userObj._id);
                   this.itemForm.setValue({
                     user: userObj._id,
@@ -90,7 +90,7 @@ export class ItemsComponent implements OnInit {
           this.location.go("/items");
         } else {
           // grab item id from url and load edit item modal
-          this.editItem({ _id: this.router.url.split("/")[2] });
+          this.editItem({ _id: this.router.url.split("/")[2], cheese: true });
           this.location.go("/items");
         }
       }
@@ -100,7 +100,7 @@ export class ItemsComponent implements OnInit {
   updateOrders(userId) {
     this.userOrders = [];
     for (const o of this.orders) {
-      if (o.userId === userId) {
+      if (o.userId._id === userId) {
         this.userOrders.push(o);
       }
     }
@@ -162,7 +162,7 @@ export class ItemsComponent implements OnInit {
       this.itemBeingEdited = res;
       this.userOrders = [];
       for (const o of this.orders) {
-        if (o.userId === res.orderId.userId._id) {
+        if (o.userId._id === res.orderId.userId._id) {
           this.userOrders.push(o);
         }
       }
@@ -199,7 +199,7 @@ export class ItemsComponent implements OnInit {
     }
     this.items = newItemArr;
     this.itemsService.deleteItem(this.itemBeingEdited._id).subscribe((res) => {
-      this.itemBeingEdited = { orders: [] };
+      this.itemBeingEdited = { cheese: true };
     });
   }
 
@@ -211,9 +211,15 @@ export class ItemsComponent implements OnInit {
   async submitItemForm() {
     this.itemSubmitAttempted = true;
     if (!this.itemForm.valid) {
+      alert(
+        "Oops! Looks like you entered in some info incorrectly. Please try again :)"
+      );
       return;
     }
     if (!this.pizzaForm.valid && !this.drinkForm.valid) {
+      alert(
+        "Oops! Looks like you entered in some info incorrectly. Please try again :)"
+      );
       return;
     }
 
@@ -263,7 +269,7 @@ export class ItemsComponent implements OnInit {
           }
         }
         this.items = newArr;
-        this.itemBeingEdited = { orders: [] };
+        this.itemBeingEdited = { cheese: true };
         this.resetFormValues();
       }
     } catch (e) {
@@ -293,5 +299,13 @@ export class ItemsComponent implements OnInit {
     this.editingItem = false;
     this.itemType = null;
     this.userOrders = [];
+  }
+
+  onOrderChange() {
+    if (!this.itemBeingEdited.cheese || this.itemBeingEdited.cheese !== false) {
+      this.itemType = "drink";
+    } else {
+      this.itemType = "pizza";
+    }
   }
 }

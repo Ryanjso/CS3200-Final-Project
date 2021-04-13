@@ -1,26 +1,62 @@
 <div *ngIf="!addingItem && !editingItem">
   <div class="title">
     <h1>List of Items Ordered from Dominos</h1>
-    <button (click)="addingItem = true">+ Create Item for Order</button>
+    <button class="mainButton" (click)="addingItem = true">
+      + Create New Item
+    </button>
   </div>
-  <div *ngFor="let item of items" class="item">
-    <p *ngIf="item.cheese || item.cheese === false">
-      {{ item.size }} Pizza with
-      {{ item.protein || item.veggie || "No Topping" }}
-    </p>
-    <p *ngIf="!item.cheese && item.cheese !== false">
-      {{ item.size }} {{ item.type }} Drink
-    </p>
-
-    <button (click)="editItem(item)">Edit Item</button>
+  <div class="content">
+    <div class="labels">
+      <p class="name">Item</p>
+      <p class="itemUser">Ordered By</p>
+      <p class="itemOrder">For Order</p>
+      <p class="manage"></p>
+    </div>
+    <div *ngFor="let item of items" class="item">
+      <div class="itemChild">
+        <p class="name" *ngIf="item.cheese || item.cheese === false">
+          {{ item.size }} Pizza with
+          {{ item.protein || item.veggie || "No Topping" }}
+        </p>
+        <p class="name" *ngIf="!item.cheese && item.cheese !== false">
+          {{ item.size }} {{ item.type }} Drink
+        </p>
+        <p class="itemUser">
+          {{ item.orderId.userId.firstName }} {{ item.orderId.userId.lastName }}
+        </p>
+        <p class="itemOrder">{{ item.orderId.name }}</p>
+        <button class="manage" (click)="editItem(item)">Manage</button>
+      </div>
+      <div
+        class="bar"
+        *ngIf="item._id !== this.items[this.items.length - 1]._id"
+      ></div>
+    </div>
   </div>
 </div>
 
-<div *ngIf="addingItem || editingItem">
-  <h2 *ngIf="addingItem">Create New Item</h2>
-  <h2 *ngIf="editingItem">Edit Existing Item</h2>
+<div *ngIf="addingItem || editingItem" class="formContainer">
+  <h2 *ngIf="addingItem">Create New Item & Add to Order</h2>
+  <h2
+    *ngIf="
+      editingItem &&
+      (itemBeingEdited.cheese || itemBeingEdited.cheese === false)
+    "
+    style="text-transform: capitalize"
+  >
+    Edit {{ itemBeingEdited.size }} Pizza with
+    {{ itemBeingEdited.protein || itemBeingEdited.veggie || "No Topping" }}
+  </h2>
+  <h2
+    *ngIf="
+      editingItem && !itemBeingEdited.cheese && itemBeingEdited.cheese !== false
+    "
+    style="text-transform: capitalize"
+  >
+    Edit {{ itemBeingEdited.size }} {{ itemBeingEdited.type }} Drink
+  </h2>
 
-  <form [formGroup]="itemForm">
+  <form class="primaryContainer" [formGroup]="itemForm">
     <label for="user" class="standardLabel">Select User</label>
     <select formControlName="user" (change)="updateOrders($event.target.value)">
       <optgroup label="Select a User">
@@ -31,7 +67,7 @@
     </select>
     <div *ngIf="this.userOrders.length > 0" class="order">
       <label for="order" class="standardLabel">Select Order</label>
-      <select formControlName="order" (change)="this.itemType = 'pizza'">
+      <select formControlName="order" (change)="this.onOrderChange()">
         <optgroup label="Select an Order">
           <option value="{{ o._id }}" *ngFor="let o of userOrders">
             {{ o.name }}
@@ -44,6 +80,7 @@
   <form
     *ngIf="this.itemType && this.addingItem"
     (change)="changeItem($event.target)"
+    class="primaryContainer"
   >
     <label for="order" class="standardLabel">Item Type</label>
     <select>
@@ -52,7 +89,11 @@
     </select>
   </form>
 
-  <form [formGroup]="pizzaForm" *ngIf="this.itemType === 'pizza'">
+  <form
+    class="primaryContainer"
+    [formGroup]="pizzaForm"
+    *ngIf="this.itemType === 'pizza'"
+  >
     <label for="pizzaSize" class="standardLabel">Pizza Size</label>
     <select formControlName="pizzaSize">
       <option selected value="small">Small</option>
@@ -83,7 +124,11 @@
     <input type="checkbox" formControlName="sauce" />
   </form>
 
-  <form [formGroup]="drinkForm" *ngIf="this.itemType === 'drink'">
+  <form
+    class="primaryContainer"
+    [formGroup]="drinkForm"
+    *ngIf="this.itemType === 'drink'"
+  >
     <label for="drinkSize" class="standardLabel">Drink Size</label>
     <select formControlName="drinkSize">
       <option selected value="small">Small</option>
@@ -103,14 +148,25 @@
     <input type="checkbox" formControlName="ice" />
   </form>
 
-  <button *ngIf="addingItem && itemType" (click)="submitItemForm()">
-    Create Item and Add to Order
-  </button>
-  <button *ngIf="editingItem && itemType" (click)="submitItemForm()">
-    Update Item
-  </button>
-  <button *ngIf="editingItem && itemType" (click)="deleteItem()">
-    Delete Item
-  </button>
-  <button (click)="resetFormValues()">Cancel</button>
+  <div class="manageButtons">
+    <button *ngIf="addingItem && itemType" (click)="submitItemForm()">
+      Create Item and Add to Order
+    </button>
+    <button *ngIf="editingItem && itemType" (click)="submitItemForm()">
+      Update Item
+    </button>
+    <button
+      class="mainButton"
+      *ngIf="editingItem && itemType"
+      (click)="deleteItem()"
+    >
+      Delete Item
+    </button>
+    <button
+      class="cancelButton"
+      (click)="resetFormValues(); this.itemBeingEdited = { cheese: true }"
+    >
+      Cancel
+    </button>
+  </div>
 </div>

@@ -1,82 +1,106 @@
 <div *ngIf="!addingUser && !editingUser">
   <div class="title">
     <h1>List of Dominos Users</h1>
-    <button (click)="addingUser = true" mat-raised-button color="primary">
+    <button class="mainButton" (click)="addingUser = true">
       + Create New User
     </button>
   </div>
-  <div *ngFor="let user of users" class="user">
-    <p>{{ user.firstName }} {{ user.lastName }}</p>
-    <p>{{ user.email }}</p>
-    <p>{{ user.username }}</p>
-    <button (click)="editUser(user)" mat-raised-button color="accent">
-      Edit User
-    </button>
+  <div class="content">
+    <div class="labels">
+      <p class="name">Name</p>
+      <p class="email">Email</p>
+      <p class="username">Username</p>
+      <p class="manage"></p>
+    </div>
+    <div *ngFor="let user of users" class="user">
+      <div class="userChild">
+        <p class="name">{{ user.firstName }} {{ user.lastName }}</p>
+        <p class="email">{{ user.email }}</p>
+        <p class="username">{{ user.username }}</p>
+        <div class="manage">
+          <button (click)="editUser(user)">Manage</button>
+        </div>
+      </div>
+      <div
+        *ngIf="user._id !== this.users[this.users.length - 1]._id"
+        class="bar"
+      ></div>
+    </div>
+    <div *ngIf="this.users.length === 0">No users created yet</div>
   </div>
-  <div *ngIf="this.users.length === 0">No users created yet</div>
 </div>
 
-<div *ngIf="addingUser || editingUser">
+<div *ngIf="addingUser || editingUser" class="formContainer">
   <form [formGroup]="userForm" (submit)="submitUserForm()">
     <h2 *ngIf="addingUser">Create New User</h2>
     <h2 *ngIf="editingUser">Edit Existing User</h2>
-    <label for="email" class="standardLabel">First Name</label>
-    <input type="text" name="" placeholder="John" formControlName="firstName" />
-    <label for="email" class="standardLabel">Last Name</label>
-    <input
-      type="text"
-      name=""
-      placeholder="Appleseed"
-      formControlName="lastName"
-    />
-    <label for="email" class="standardLabel">Username</label>
-    <input
-      type="text"
-      name=""
-      placeholder="e.g. japple11"
-      formControlName="username"
-    />
-    <label for="email" class="standardLabel">Email</label>
-    <input
-      type="text"
-      name=""
-      placeholder="me@example.com"
-      formControlName="email"
-    />
-    <span
-      class="error"
-      *ngIf="userSubmitAttempted && email.invalid && email.errors.required"
-    >
-      Email is required
-    </span>
-    <span
-      class="error"
-      *ngIf="userSubmitAttempted && email.invalid && email.errors.email"
-    >
-      Email is invalid
-    </span>
-    <label for="email" class="standardLabel">Password</label>
-    <input
-      type="text"
-      placeholder="Something secure..."
-      formControlName="password"
-    />
-    <label for="email" class="standardLabel">Date of Birth</label>
-    <input type="date" name="" formControlName="dateOfBirth" />
+    <div class="managePrimarySecondaryContainer">
+      <div class="primaryContainer">
+        <label for="email" class="standardLabel">First Name</label>
+        <input
+          type="text"
+          name=""
+          placeholder="John"
+          formControlName="firstName"
+        />
+        <label for="email" class="standardLabel">Last Name</label>
+        <input
+          type="text"
+          name=""
+          placeholder="Appleseed"
+          formControlName="lastName"
+        />
+        <label for="email" class="standardLabel">Username</label>
+        <input
+          type="text"
+          name=""
+          placeholder="e.g. japple11"
+          formControlName="username"
+        />
+        <label for="email" class="standardLabel">Email</label>
+        <input
+          type="text"
+          name=""
+          placeholder="me@example.com"
+          formControlName="email"
+        />
+        <label for="email" class="standardLabel">Password</label>
+        <input
+          type="text"
+          placeholder="Something secure..."
+          formControlName="password"
+        />
+        <label for="email" class="standardLabel">Date of Birth</label>
+        <input type="date" name="" formControlName="dateOfBirth" />
+      </div>
 
-    <label class="standardLabel" *ngIf="this.userBeingEdited.orders.length > 0"
-      >Orders</label
-    >
-    <div *ngFor="let order of this.userBeingEdited.orders" class="order">
-      <p>{{ order.name }}</p>
-      <button (click)="this.router.navigate(['/orders/' + order._id])">
-        View Order
-      </button>
+      <div class="secondaryContainer">
+        <label
+          class="standardLabel"
+          *ngIf="this.userBeingEdited.orders.length > 0"
+          >Orders</label
+        >
+        <div *ngFor="let order of this.userBeingEdited.orders" class="order">
+          <p>{{ order.name }}</p>
+          <button (click)="this.router.navigate(['/orders/' + order._id])">
+            View
+          </button>
+        </div>
+      </div>
     </div>
 
-    <button *ngIf="addingUser" type="submit">Create User</button>
-    <button *ngIf="editingUser" type="submit">Update User</button>
-    <button *ngIf="editingUser" (click)="deleteUser()">Delete User</button>
-    <button (click)="resetUserFormVals()">Cancel</button>
+    <div class="manageButtons">
+      <button *ngIf="addingUser" type="submit">Create User</button>
+      <button *ngIf="editingUser" type="submit">Update User</button>
+      <button class="mainButton" *ngIf="editingUser" (click)="deleteUser()">
+        Delete User
+      </button>
+      <button
+        class="cancelButton"
+        (click)="resetUserFormVals(); this.userBeingEdited = { orders: [] }"
+      >
+        Cancel
+      </button>
+    </div>
   </form>
 </div>

@@ -91,6 +91,9 @@ export class UsersComponent implements OnInit {
   async submitUserForm() {
     this.userSubmitAttempted = true;
     if (!this.userForm.valid) {
+      alert(
+        "Oops! Looks like you entered in some info incorrectly. Please try again :)"
+      );
       return;
     }
 

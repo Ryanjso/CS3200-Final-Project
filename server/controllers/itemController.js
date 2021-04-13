@@ -9,13 +9,21 @@ router.post('/create', async (req, res) => {
   let item = new Item(itemData);
   item = await item.save();
 
-  res.send(item);
+  let itemPopulated = await Item.findById(item._id).populate({
+    path: 'orderId',
+    populate: { path: 'userId', select: { firstName: true, lastName: true } },
+  });
+
+  res.send(itemPopulated);
 });
 
 // get all items
 
 router.get('/', async (req, res) => {
-  const items = await Item.find();
+  const items = await Item.find().populate({
+    path: 'orderId',
+    populate: { path: 'userId', select: { firstName: true, lastName: true } },
+  });
   res.send(items);
 });
 
@@ -40,7 +48,10 @@ router.patch('/update/:itemId', async (res, req) => {
     itemId,
     { $set: newItemFields },
     { new: true }
-  );
+  ).populate({
+    path: 'orderId',
+    populate: { path: 'userId', select: { firstName: true, lastName: true } },
+  });
 
   req.req.res.send(updatedItem);
 });

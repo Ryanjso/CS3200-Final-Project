@@ -1,6 +1,19 @@
 <div class="nav">
-  <a (click)="this.router.navigate(['/users'])">View Users</a>
-  <a (click)="this.router.navigate(['/orders'])">View Orders</a>
-  <a (click)="this.router.navigate(['/items'])">View Items</a>
+  <img src="../assets/dominos_logo.png" />
+  <a
+    (click)="this.router.navigate(['/users'])"
+    [ngClass]="{ selected: this.router.url.split('/').includes('users') }"
+    >View All Users</a
+  >
+  <a
+    (click)="this.router.navigate(['/orders'])"
+    [ngClass]="{ selected: this.router.url.split('/').includes('orders') }"
+    >View All Orders</a
+  >
+  <a
+    (click)="this.router.navigate(['/items'])"
+    [ngClass]="{ selected: this.router.url.split('/').includes('items') }"
+    >View All Items</a
+  >
 </div>
 <router-outlet></router-outlet>

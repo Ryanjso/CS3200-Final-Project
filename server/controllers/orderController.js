@@ -11,12 +11,20 @@ router.post('/create', async (req, res) => {
   let order = new Order(orderData);
   order = await order.save();
 
-  res.send(order);
+  let orderWithUser = await Order.findById(order._id).populate({
+    path: 'userId',
+    select: { firstName: 1, lastName: 1 },
+  });
+
+  res.send(orderWithUser);
 });
 
 // Get all orders
 router.get('/', async (req, res) => {
-  const orders = await Order.find();
+  const orders = await Order.find().populate({
+    path: 'userId',
+    select: { firstName: 1, lastName: 1 },
+  });
   res.send(orders);
 });
 
@@ -43,7 +51,10 @@ router.patch('/update/:orderId', async (req, res) => {
     orderId,
     { $set: newOrderFields },
     { new: true }
-  );
+  ).populate({
+    path: 'userId',
+    select: { firstName: 1, lastName: 1 },
+  });
 
   res.send(updatedOrder);
 });

@@ -1,7 +1,33 @@
 .nav > a {
-  margin: 5px;
+  padding: 5px 5px;
+  margin: 7px 5px 5px 5px;
+  font-weight: 500;
+  border-bottom: 2px solid white;
 }
 .nav > a:hover {
   cursor: pointer;
-  text-decoration: underline;
+  border-radius: 6px;
+  background-color: #00000015;
+}
+
+.nav {
+  display: flex;
+  width: calc(100% - 10px);
+  height: 60px;
+  align-items: center;
+  padding-left: 10px;
+  border-radius: 50px;
+}
+
+.nav > img {
+  height: 45px;
+  margin-right: 15px;
+}
+
+.selected {
+  border-bottom: 2px solid black !important;
+}
+
+.selected:hover {
+  border-radius: 6px 6px 0px 0px !important;
 }
