@@ -6,6 +6,8 @@ Ryan Soderberg & Will Kofski
 
 Section 03 SP21
 
+[http://cs3200-final.us-east-2.elasticbeanstalk.com/users](http://cs3200-final.us-east-2.elasticbeanstalk.com/users)
+
 ### Summary
 
 Pizza Shop is a web app where users can sign up, and order a pizza. Our app relies on 3 main collections of data, `Users`, `Orders`, and `Items`. Using our app, users can create new accounts, start orders with a name, and add items such as a `Pizza` or `Drink` to the order.
