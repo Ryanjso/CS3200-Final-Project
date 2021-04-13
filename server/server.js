@@ -11,7 +11,7 @@ app.use(cors());
 // initialize DB
 const { mongoose } = require('./db');
 
-const port = 3750;
+const port = process.env.PORT || 3750;
 
 app.listen(port, () => console.log('Server started at port : ' + port));
 
