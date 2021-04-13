@@ -302,7 +302,7 @@ export class ItemsComponent implements OnInit {
   }
 
   onOrderChange() {
-    if (!this.itemBeingEdited.cheese || this.itemBeingEdited.cheese !== false) {
+    if (!this.itemBeingEdited.cheese && this.itemBeingEdited.cheese !== false) {
       this.itemType = "drink";
     } else {
       this.itemType = "pizza";
