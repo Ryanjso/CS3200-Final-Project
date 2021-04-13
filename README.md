@@ -53,7 +53,7 @@ The highest level model is the `User`, which does not require any other models t
 
 ## User Interface
 
-Our user interface is structured around `Users`, who create orders that contain as many `Item`s as they like, which are types of either Pizzas or Drinks.
+Our user interface is structured around `Users`, who create `Order`s that contain as many `Item`s as they like, which are types of either Pizzas or Drinks.
 
 The `'/users'` tab lists all of the users that have been created so far, and gives the ability to either create a new user or edit an existing user. By editing an individual `User`, you are able to view and navigate to all associated `User` `Order`s.
 
