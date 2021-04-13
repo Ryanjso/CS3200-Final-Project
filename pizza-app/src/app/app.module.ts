@@ -8,9 +8,16 @@ import { OrdersComponent } from "./orders/orders.component";
 import { ItemsComponent } from "./items/items.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { TimeAgoPipe } from "time-ago-pipe";
 
 @NgModule({
-  declarations: [AppComponent, UsersComponent, OrdersComponent, ItemsComponent],
+  declarations: [
+    AppComponent,
+    UsersComponent,
+    OrdersComponent,
+    ItemsComponent,
+    TimeAgoPipe,
+  ],
   imports: [
     BrowserModule,
     FormsModule,

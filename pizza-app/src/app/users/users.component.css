@@ -5,16 +5,51 @@ button {
 form {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .title,
-.user,
+.userChild,
 .order {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-* {
-  margin: 5px;
+.order {
+  width: 100%;
+}
+
+.order > p {
+  width: 50%;
+}
+
+.user,
+.userChild {
+  width: 100%;
+}
+
+.name {
+  width: 20%;
+}
+.email {
+  width: 25%;
+}
+.username {
+  min-width: 150px;
+}
+.manage {
+  width: fit-content;
+}
+
+.name,
+.email,
+.username,
+.manage {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.user > p {
+  text-overflow: ellipsis;
 }

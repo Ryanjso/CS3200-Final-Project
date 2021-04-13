@@ -1,60 +1,103 @@
 <div *ngIf="!addingOrder && !editingOrder">
   <div class="title">
     <h1>List of Dominos Orders</h1>
-    <button (click)="addingOrder = true">+ Create New Order</button>
+    <button class="mainButton" (click)="addingOrder = true">
+      + Create New Order
+    </button>
   </div>
-  <div *ngFor="let order of orders" class="order">
-    <p>{{ order.name }}</p>
-
-    <button (click)="editOrder(order)">Edit Order</button>
+  <div class="content">
+    <div class="labels">
+      <p class="name">Order Name</p>
+      <p class="orderedBy">Ordered By</p>
+      <p class="time">Created</p>
+      <p class="manage"></p>
+    </div>
+    <div *ngFor="let order of orders" class="order">
+      <div class="orderChild">
+        <p class="name">{{ order.name }}</p>
+        <p class="orderedBy">
+          {{ order.userId.firstName }} {{ order.userId.lastName }}
+        </p>
+        <p class="time">{{ order.created | timeAgo }}</p>
+        <button class="manage" (click)="editOrder(order)">Manage</button>
+      </div>
+      <div
+        class="bar"
+        *ngIf="order._id !== this.orders[this.orders.length - 1]._id"
+      ></div>
+    </div>
+    <div *ngIf="orders.length === 0">No Orders Created Yet</div>
   </div>
-  <div *ngIf="orders.length === 0">No Orders Created Yet</div>
 </div>
 
-<div *ngIf="addingOrder || editingOrder">
+<div *ngIf="addingOrder || editingOrder" class="formContainer">
   <form [formGroup]="orderForm" (submit)="submitOrderForm()">
     <h2 *ngIf="addingOrder">Create New Order</h2>
     <h2 *ngIf="editingOrder">Edit Existing Order</h2>
 
-    <label for="user" class="standardLabel">User</label>
-    <select formControlName="user">
-      <optgroup label="Select a User">
-        <option value="{{ u._id }}" *ngFor="let u of users">
-          {{ u.firstName }} {{ u.lastName }}
-        </option>
-      </optgroup>
-    </select>
-    <label for="order" class="standardLabel">Order Name</label>
-    <input
-      type="text"
-      name=""
-      placeholder="e.g. John's Favorite Pizza"
-      formControlName="name"
-    />
+    <div class="managePrimarySecondaryContainer">
+      <div class="primaryContainer">
+        <label for="user" class="standardLabel">User</label>
+        <select formControlName="user">
+          <optgroup label="Select a User">
+            <option value="{{ u._id }}" *ngFor="let u of users">
+              {{ u.firstName }} {{ u.lastName }}
+            </option>
+          </optgroup>
+        </select>
+        <label for="order" class="standardLabel">Order Name</label>
+        <input
+          type="text"
+          name=""
+          placeholder="e.g. John's Favorite Pizza"
+          formControlName="name"
+        />
+      </div>
 
-    <label for="items" class="standardLabel" *ngIf="this.editingOrder"
-      >Order Items</label
-    >
-    <div *ngIf="this.editingOrder && orderBeingEdited.items.length > 0">
-      <div *ngFor="let item of orderBeingEdited.items">
-        <p *ngIf="item.cheese || item.cheese === false">
-          - {{ item.size }} Pizza with
-          {{ item.protein || item.veggie || "No Topping" }}
-        </p>
-        <p *ngIf="!item.cheese && item.cheese !== false">
-          - {{ item.size }} {{ item.type }} Drink
-        </p>
-        <button (click)="this.router.navigate(['/items/' + item._id])">
-          View Item
-        </button>
+      <div class="secondaryContainer">
+        <label
+          for="items"
+          class="standardLabel"
+          *ngIf="this.editingOrder && orderBeingEdited.items.length > 0"
+          >Order Items</label
+        >
+        <div *ngIf="this.editingOrder && orderBeingEdited.items.length > 0">
+          <div *ngFor="let item of orderBeingEdited.items" class="item">
+            <p
+              *ngIf="item.cheese || item.cheese === false"
+              style="text-transform: capitalize"
+            >
+              {{ item.size }} Pizza with
+              {{ item.protein || item.veggie || "No Topping" }}
+            </p>
+            <p
+              *ngIf="!item.cheese && item.cheese !== false"
+              style="text-transform: capitalize"
+            >
+              {{ item.size }} {{ item.type }} Drink
+            </p>
+            <button (click)="this.router.navigate(['/items/' + item._id])">
+              View Item
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <button *ngIf="addingOrder" type="submit">
-      Create Order and Start Adding Items
-    </button>
-    <button *ngIf="editingOrder" type="submit">Update Order</button>
-    <button *ngIf="editingOrder" (click)="deleteOrder()">Delete Order</button>
-    <button (click)="resetOrderFormVals()">Cancel</button>
+    <div class="manageButtons">
+      <button *ngIf="addingOrder" type="submit">
+        Create Order and Start Adding Items
+      </button>
+      <button *ngIf="editingOrder" type="submit">Update Order</button>
+      <button class="mainButton" *ngIf="editingOrder" (click)="deleteOrder()">
+        Delete Order
+      </button>
+      <button
+        class="cancelButton"
+        (click)="resetOrderFormVals(); this.orderBeingEdited = { items: [] }"
+      >
+        Cancel
+      </button>
+    </div>
   </form>
 </div>

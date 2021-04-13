@@ -8,12 +8,35 @@ form {
 }
 
 .title,
-.order {
+.orderChild {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-* {
-  margin: 5px;
+.order,
+.orderChild {
+  width: 100%;
+}
+
+.name {
+  width: 25%;
+}
+.orderedBy {
+  width: 25%;
+}
+.time {
+  width: 15%;
+}
+.manage {
+  width: fit-content;
+}
+
+.item {
+  display: flex;
+  width: 100%;
+}
+
+.item > p {
+  width: 50%;
 }

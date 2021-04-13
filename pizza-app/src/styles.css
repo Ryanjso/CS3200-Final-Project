@@ -1,1 +1,111 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+button {
+  padding: 6px;
+  border-radius: 6px;
+  background-color: blue;
+  color: white;
+  font-weight: 600;
+  border: none;
+  margin: 5px 0px;
+  width: fit-content;
+  align-self: center;
+}
+
+.mainButton {
+  background-color: rgb(255, 0, 21) !important;
+}
+
+button:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px rgba(0, 0, 255, 0.344);
+}
+
+.mainButton:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px rgba(255, 0, 21, 0.344);
+}
+
+.cancelButton {
+  background-color: rgb(185, 185, 185) !important;
+}
+
+.cancelButton:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px rgba(189, 189, 189, 0.344);
+}
+
+.title {
+  padding: 32px 32px 16px 32px;
+  width: calc(100% - 64px);
+}
+
+.title > h1 {
+  margin-right: 16px;
+}
+
+.content {
+  padding: 0px 32px;
+}
+
+.labels {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.labels p {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.standardLabel {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bar {
+  height: 1px;
+  width: 75%;
+  min-width: 650px;
+  background-color: rgb(214, 214, 214);
+}
+
+.formContainer {
+  margin-left: 32px;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 6px;
+  margin: 8px 0px;
+  border: 1px solid black;
+}
+
+.managePrimarySecondaryContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.primaryContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.secondaryContainer {
+  margin-left: 32px;
+  width: calc(50% - 32px);
+}
+
+.manageButtons {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}

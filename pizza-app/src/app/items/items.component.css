@@ -8,21 +8,38 @@ form {
 }
 
 .title,
-.item {
+.itemChild {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.item > p {
+.itemChild > p {
   text-transform: capitalize;
 }
 
-* {
-  margin: 5px;
+.item,
+.itemChild {
+  width: 100%;
 }
 
 .order {
   display: flex;
   flex-direction: column;
+}
+
+.name {
+  width: 25%;
+}
+
+.itemUser {
+  width: 15%;
+}
+
+.itemOrder {
+  width: 25%;
+}
+
+.manage {
+  width: fit-content;
 }
