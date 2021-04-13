@@ -1,13 +1,17 @@
 <div *ngIf="!addingUser && !editingUser">
   <div class="title">
     <h1>List of Dominos Users</h1>
-    <button (click)="addingUser = true">+ Create New User</button>
+    <button (click)="addingUser = true" mat-raised-button color="primary">
+      + Create New User
+    </button>
   </div>
   <div *ngFor="let user of users" class="user">
     <p>{{ user.firstName }} {{ user.lastName }}</p>
     <p>{{ user.email }}</p>
     <p>{{ user.username }}</p>
-    <button (click)="editUser(user)">Edit User</button>
+    <button (click)="editUser(user)" mat-raised-button color="accent">
+      Edit User
+    </button>
   </div>
   <div *ngIf="this.users.length === 0">No users created yet</div>
 </div>
