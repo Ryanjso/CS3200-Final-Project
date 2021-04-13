@@ -52,3 +52,11 @@ veggie: {
 The highest level model is the `User`, which does not require any other models to be created. The second highest is the `Order`, which requires a `User` in order to be created. Every `Order` will be tied to one `User`. A `User` can have any amount of `Order`s, including none. The last model is the `Item` model, which requires an `Order` to be created, and in turn also a `User`. There can be any amount of `Item`s for an `Order`, or none.
 
 ## User Interface
+
+Our user interface is structured around `Users`, who create orders that contain as many `Item`s as they like, which are types of either Pizzas or Drinks.
+
+The `'/users'` tab lists all of the users that have been created so far, and gives the ability to either create a new user or edit an existing user. By editing an individual `User`, you are able to view and navigate to all associated `User` `Order`s.
+
+The `'/orders'` tab lists all of the `Order`s that have been created so far, and gives the ability to either create a new `Order` or edit an existing `Order`. By editing an individual `Order`, you are able to view and navigate to all associated `Order` `Item`s.
+
+The `/items` tab lists all of the `Item`s that have been created so far, and gives the ability to either create a new `Item` or edit an existing `Item`. By editing an individual `Item`, you are able to view change the associated `User` and `Order`, as well as the individual `Item` information.
