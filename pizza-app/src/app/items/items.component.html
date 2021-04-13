@@ -22,7 +22,7 @@
 
   <form [formGroup]="itemForm">
     <label for="user" class="standardLabel">Select User</label>
-    <select formControlName="user" (change)="updateOrders($event.target)">
+    <select formControlName="user" (change)="updateOrders($event.target.value)">
       <optgroup label="Select a User">
         <option value="{{ u._id }}" *ngFor="let u of users">
           {{ u.firstName }} {{ u.lastName }}

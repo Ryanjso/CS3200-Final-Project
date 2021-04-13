@@ -41,7 +41,7 @@ export class ItemsComponent implements OnInit {
     public location: Location
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.itemForm = this.fb.group({
       user: ["", [Validators.required]],
       order: ["", [Validators.required]],
@@ -67,17 +67,40 @@ export class ItemsComponent implements OnInit {
     });
     this.ordersService.getAllOrders().subscribe((res) => {
       this.orders = res;
+      if (this.router.url.split("/").length > 2) {
+        if (this.router.url.split("/").includes("newOrder")) {
+          console.log("ugh");
+          // grab new order id from url and load create Item modal with user and order populated
+          for (const orderObj of this.orders) {
+            if (orderObj._id === this.router.url.split("/")[3]) {
+              for (const userObj of this.users) {
+                if (userObj._id === orderObj.userId) {
+                  this.updateOrders(userObj._id);
+                  this.itemForm.setValue({
+                    user: userObj._id,
+                    order: this.router.url.split("/")[3],
+                  });
+                }
+              }
+            }
+          }
+
+          this.itemType = "pizza";
+          this.addingItem = true;
+          this.location.go("/items");
+        } else {
+          // grab item id from url and load edit item modal
+          this.editItem({ _id: this.router.url.split("/")[2] });
+          this.location.go("/items");
+        }
+      }
     });
-    if (this.router.url.split("/").length > 2) {
-      this.editItem({ _id: this.router.url.split("/")[2] });
-      this.location.go("/items");
-    }
   }
 
-  updateOrders(eventTarget) {
+  updateOrders(userId) {
     this.userOrders = [];
     for (const o of this.orders) {
-      if (o.userId === eventTarget.value) {
+      if (o.userId === userId) {
         this.userOrders.push(o);
       }
     }
@@ -135,6 +158,7 @@ export class ItemsComponent implements OnInit {
       this.itemType = "drink";
     }
     this.itemsService.getItemInfo(itemObj._id).subscribe((res) => {
+      console.log(res);
       this.itemBeingEdited = res;
       this.userOrders = [];
       for (const o of this.orders) {

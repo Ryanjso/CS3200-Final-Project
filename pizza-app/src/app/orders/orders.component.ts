@@ -95,6 +95,7 @@ export class OrdersComponent implements OnInit {
           console.log("res: ", res);
           this.orders.push(res);
           this.addingOrder = false;
+          this.router.navigate(["/items/newOrder/" + res._id]);
         });
       } else {
         let newArr = [];
