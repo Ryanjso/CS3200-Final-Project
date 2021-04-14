@@ -96,6 +96,7 @@ export class OrdersComponent implements OnInit {
         this.ordersService.createOrder(newOrder).subscribe((res) => {
           this.orders.push(res);
           this.addingOrder = false;
+          this.orderBeingEdited = { items: [] };
           this.router.navigate(["/items/newOrder/" + res._id]);
         });
       } else {
@@ -104,6 +105,7 @@ export class OrdersComponent implements OnInit {
           if (o._id === this.orderBeingEdited._id) {
             this.ordersService.updateOrder(o._id, newOrder).subscribe((res) => {
               newArr.push(res);
+              this.orderBeingEdited = { items: [] };
             });
           } else {
             newArr.push(o);

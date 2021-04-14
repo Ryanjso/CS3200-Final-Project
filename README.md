@@ -2,7 +2,7 @@
 
 # Pizza Shop
 
-Ryan Soderberg & Will Kofski
+Ryan Soderberg & Will Kofski (Team 30)
 
 Section 03 SP21
 

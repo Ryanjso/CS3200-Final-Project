@@ -254,6 +254,7 @@ export class ItemsComponent implements OnInit {
         this.itemsService.createItem(newItem).subscribe((res) => {
           this.items.push(res);
           this.addingItem = false;
+          this.itemBeingEdited = { cheese: true };
         });
       } else {
         let newArr = [];
@@ -263,6 +264,7 @@ export class ItemsComponent implements OnInit {
               .updateItem(i._id, newItem)
               .subscribe((res) => {
                 newArr.push(res);
+                this.itemBeingEdited = { cheese: true };
               });
           } else {
             newArr.push(i);

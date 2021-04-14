@@ -115,6 +115,7 @@ export class UsersComponent implements OnInit {
           this.users.push(res);
           this.addingUser = false;
           this.resetUserFormVals();
+          this.userBeingEdited = { orders: [] };
         });
       } else {
         let newArr = [];
@@ -122,6 +123,7 @@ export class UsersComponent implements OnInit {
           if (u._id === this.userBeingEdited._id) {
             this.usersService.updateUser(u._id, newUser).subscribe((res) => {
               newArr.push(res);
+              this.userBeingEdited = { orders: [] };
             });
           } else {
             newArr.push(u);
