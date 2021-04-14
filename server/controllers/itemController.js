@@ -32,11 +32,7 @@ router.get('/', async (req, res) => {
 router.get('/:itemId', async (req, res) => {
   const itemId = req.params.itemId;
 
-  const item = await Item.findById(itemId).populate({
-    path: 'orderId',
-    populate: { path: 'userId' },
-  });
-
+  const item = await Item.findById(itemId);
   res.send(item);
 });
 
