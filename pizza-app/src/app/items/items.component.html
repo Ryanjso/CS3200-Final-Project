@@ -32,6 +32,7 @@
         *ngIf="item._id !== this.items[this.items.length - 1]._id"
       ></div>
     </div>
+    <div *ngIf="items.length === 0">No Items Created Yet</div>
   </div>
 </div>
 
@@ -107,7 +108,7 @@
       <option selected value="sausage">Sausage</option>
       <option selected value="chicken">Chicken</option>
       <option selected value="bacon">Bacon</option>
-      <option selected value="veganChorizo">Vegan Chorizo</option>
+      <option selected value="vegan chorizo">Vegan Chorizo</option>
     </select>
     <label for="veggie" class="standardLabel">Veggie</label>
     <select formControlName="veggie">

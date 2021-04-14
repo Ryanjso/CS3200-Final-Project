@@ -43,7 +43,6 @@ export class UsersComponent implements OnInit {
     });
 
     this.usersService.getAllUsers().subscribe((res) => {
-      console.log("res: !, ", res);
       this.users = res;
     });
   }
@@ -113,7 +112,6 @@ export class UsersComponent implements OnInit {
       if (this.addingUser) {
         newUser.orders = [];
         this.usersService.createUser(newUser).subscribe((res) => {
-          console.log("res: ", res);
           this.users.push(res);
           this.addingUser = false;
           this.resetUserFormVals();

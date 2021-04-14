@@ -1,7 +1,6 @@
 const express = require('express');
 const { Item } = require('../models/item');
 const { Order } = require('../models/order');
-const { User } = require('../models/user');
 const router = express.Router();
 
 // create an order
@@ -64,6 +63,9 @@ router.delete('/delete/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
 
   const removedOrder = await Order.findByIdAndRemove(orderId);
+
+  // delete all items with this orderId
+  Item.deleteMany({ orderId }).exec();
 
   res.send(removedOrder);
 });

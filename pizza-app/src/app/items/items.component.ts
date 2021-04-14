@@ -59,8 +59,18 @@ export class ItemsComponent implements OnInit {
       ice: [false, [Validators.required]],
     });
     this.itemsService.getAllItems().subscribe((res) => {
-      console.log(res);
       this.items = res;
+      if (this.router.url.split("/").length > 2) {
+        if (!this.router.url.split("/").includes("newOrder")) {
+          // grab item id from url and load edit item modal
+          for (const i of this.items) {
+            if (i._id === this.router.url.split("/")[2]) {
+              this.editItem(i);
+              this.location.go("/items");
+            }
+          }
+        }
+      }
     });
     this.usersService.getAllUsers().subscribe((res) => {
       this.users = res;
@@ -69,7 +79,6 @@ export class ItemsComponent implements OnInit {
       this.orders = res;
       if (this.router.url.split("/").length > 2) {
         if (this.router.url.split("/").includes("newOrder")) {
-          console.log(this.router.url.split("/")[3]);
           // grab new order id from url and load create Item modal with user and order populated
           for (const orderObj of this.orders) {
             if (orderObj._id === this.router.url.split("/")[3]) {
@@ -87,10 +96,6 @@ export class ItemsComponent implements OnInit {
 
           this.itemType = "pizza";
           this.addingItem = true;
-          this.location.go("/items");
-        } else {
-          // grab item id from url and load edit item modal
-          this.editItem({ _id: this.router.url.split("/")[2], cheese: true });
           this.location.go("/items");
         }
       }
@@ -158,7 +163,6 @@ export class ItemsComponent implements OnInit {
       this.itemType = "drink";
     }
     this.itemsService.getItemInfo(itemObj._id).subscribe((res) => {
-      console.log(res);
       this.itemBeingEdited = res;
       this.userOrders = [];
       for (const o of this.orders) {
@@ -204,7 +208,6 @@ export class ItemsComponent implements OnInit {
   }
 
   changeItem(eventTarget) {
-    console.log(eventTarget.value);
     this.itemType = eventTarget.value;
   }
 
@@ -249,7 +252,6 @@ export class ItemsComponent implements OnInit {
       // here is where we send new user info to backend and save to array
       if (this.addingItem) {
         this.itemsService.createItem(newItem).subscribe((res) => {
-          console.log("res: ", res);
           this.items.push(res);
           this.addingItem = false;
         });
@@ -257,11 +259,9 @@ export class ItemsComponent implements OnInit {
         let newArr = [];
         for (let i of this.items) {
           if (i._id === this.itemBeingEdited._id) {
-            console.log(i._id);
             await this.itemsService
               .updateItem(i._id, newItem)
               .subscribe((res) => {
-                console.log("res12: ", res);
                 newArr.push(res);
               });
           } else {

@@ -1,6 +1,7 @@
 const express = require('express');
 const { Order } = require('../models/order');
 const { User } = require('../models/user');
+const { Item } = require('../models/item');
 const router = express.Router();
 
 // Create a new user
@@ -37,11 +38,7 @@ router.patch('/update/:userId', async (req, res) => {
   const userId = req.params.userId;
   const newUserFields = req.body;
 
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    { $set: newUserFields },
-    { new: true }
-  );
+  const updatedUser = await User.findByIdAndUpdate(userId, { $set: newUserFields }, { new: true });
 
   res.send(updatedUser);
 });
@@ -51,6 +48,14 @@ router.delete('/delete/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   const removedUser = await User.findByIdAndRemove(userId);
+  const orders = await Order.find({ userId });
+  for (const order of orders) {
+    // delete all items of all users orders
+    Item.deleteMany({ orderId: order._id }).exec();
+  }
+
+  // delete all orders of this user
+  Order.deleteMany({ userId }).exec();
 
   res.send(removedUser);
 });

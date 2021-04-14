@@ -38,7 +38,6 @@ export class ItemsService {
       "Content-Type": "application/json",
     });
     const options = { headers };
-    console.log("tes: ", this.serverUrl + "item/update/" + itemId);
     return this.http.patch<any>(
       this.serverUrl + "item/update/" + itemId,
       itemInfo,

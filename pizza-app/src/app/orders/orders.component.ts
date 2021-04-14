@@ -43,7 +43,6 @@ export class OrdersComponent implements OnInit {
       user: ["", [Validators.required]],
     });
     this.ordersService.getAllOrders().subscribe((res) => {
-      console.log(res);
       this.orders = res;
     });
     this.usersService.getAllUsers().subscribe((res) => {
@@ -95,7 +94,6 @@ export class OrdersComponent implements OnInit {
       // here is where we send new user info to backend and save to array
       if (this.addingOrder) {
         this.ordersService.createOrder(newOrder).subscribe((res) => {
-          console.log("res: ", res);
           this.orders.push(res);
           this.addingOrder = false;
           this.router.navigate(["/items/newOrder/" + res._id]);
