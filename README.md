@@ -62,3 +62,28 @@ The `'/users'` tab lists all of the users that have been created so far, and giv
 The `'/orders'` tab lists all of the `Order`s that have been created so far, and gives the ability to either create a new `Order` or edit an existing `Order`. By editing an individual `Order`, you are able to view and navigate to all associated `Order` `Item`s.
 
 The `/items` tab lists all of the `Item`s that have been created so far, and gives the ability to either create a new `Item` or edit an existing `Item`. By editing an individual `Item`, you are able to view change the associated `User` and `Order`, as well as the individual `Item` information.
+
+# How to run locally
+
+1. open a terminal window and navigate to the `server` folder
+
+
+    a. run `npm i --save` to install missing npm packages (only needs to be done the first time)
+
+    b. create a `.env` file in the `server` folder and add credentials for the database connection. Feel free to use the following:
+
+    ```
+    MONGO_USERNAME = willandryan
+    MONGO_PASSWORD = HIAA2OyNXmZ0VXVL
+    ```
+
+    b. run `nodemon`
+
+2.  Once the server is running, keep the tab open in your terminal so the server stays alive and open a second tab in the terminal and navigate to the `pizza-app` folder, which contains the angular project
+
+
+    a. type `ng serve` and the angular app will go live on at `localhost:4200`
+
+Done!
+
+The database is a remotely hosted MongoDB databse, to switch the database to your own, please update the `db.js` file in the `server` folder with a link to your database and an updated `MONGO_USERNAME` and `MONGO_PASSWORD` in the `.env` file
