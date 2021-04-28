@@ -67,22 +67,22 @@ The `/items` tab lists all of the `Item`s that have been created so far, and giv
 
 1. open a terminal window and navigate to the `server` folder
 
+   a. run `npm i --save` to install missing npm packages (only needs to be done the first time)
 
-    a. run `npm i --save` to install missing npm packages (only needs to be done the first time)
+   b. create a `.env` file in the `server` folder and add credentials for the database connection. Feel free to use the following:
 
-    b. create a `.env` file in the `server` folder and add credentials for the database connection. Feel free to use the following:
+   ```
+   MONGO_USERNAME = willandryan
+   MONGO_PASSWORD = HIAA2OyNXmZ0VXVL
+   ```
 
-    ```
-    MONGO_USERNAME = willandryan
-    MONGO_PASSWORD = HIAA2OyNXmZ0VXVL
-    ```
+   b. run `nodemon`
 
-    b. run `nodemon`
+2. Once the server is running, keep the tab open in your terminal so the server stays alive and open a second tab in the terminal and navigate to the `pizza-app` folder, which contains the angular project
 
-2.  Once the server is running, keep the tab open in your terminal so the server stays alive and open a second tab in the terminal and navigate to the `pizza-app` folder, which contains the angular project
+   a. run `npm i --save` to install missing npm packages (only needs to be done the first time)
 
-
-    a. type `ng serve` and the angular app will go live on at `localhost:4200`
+   b. type `ng serve` and the angular app will go live on at `localhost:4200`
 
 Done!
 
